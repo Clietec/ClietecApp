@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var originalFetch = window.fetch;
+          var customFetch = originalFetch;
+
+          // Provide writable setter so libraries assigning window.fetch do not throw
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get: function () {
+                return customFetch;
+              },
+              set: function (fn) {
+                customFetch = fn;
+              },
+              configurable: true,
+              enumerable: true,
+            });
+          } catch (e) {
+            try {
+              Object.defineProperty(Window.prototype, 'fetch', {
+                get: function () {
+                  return customFetch;
+                },
+                set: function (fn) {
+                  customFetch = fn;
+                },
+                configurable: true,
+                enumerable: true,
+              });
+            } catch (e2) {}
+          }
+
+          // Catch any uncaught assignment errors if dispatched before load
+          window.addEventListener('error', function (event) {
+            if (
+              event &&
+              event.message &&
+              event.message.indexOf('Cannot set property fetch') !== -1
+            ) {
+              if (event.preventDefault) event.preventDefault();
+              if (event.stopPropagation) event.stopPropagation();
+              return true;
+            }
+          });
+        } catch (err) {}
+      })();
+    </script>
+    <title>Clietec - Soluciones en Tecnología</title>
+    <meta name="description" content="Sistema moderno de gestión integral para talleres de reparación de computadoras: órdenes de servicio, clientes, inventario de repuestos, diagnósticos y cotizaciones." />
+    <meta property="og:title" content="Clietec - Soluciones en Tecnología" />
+    <meta property="og:description" content="Sistema moderno de gestión integral para talleres de reparación de computadoras: órdenes de servicio, clientes, inventario de repuestos, diagnósticos y cotizaciones." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="./assets/index-CR8fra_V.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DXUyBBBU.css">
+  </head>
+  <body class="bg-light text-dark antialiased">
+    <div id="root"></div>
+  </body>
+</html>
